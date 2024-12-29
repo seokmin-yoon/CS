@@ -45,19 +45,19 @@ void printList(LinkedList_h* CL) {
 	printf(")\n");
 }
 
-// ¿øÇü ¿¬°á ¸®½ºÆ®¿¡¼­ Ã¹ ¹øÂ° ³ëµå·Î »ðÀÔÇÏ´Â ¿¬»ê
+// ì›í˜• ì—°ê²° ë¦¬ìŠ¤íŠ¸ì—ì„œ ì²« ë²ˆì§¸ ë…¸ë“œë¡œ ì‚½ìž…í•˜ëŠ” ì—°ì‚°
 void insertFirstNode(LinkedList_h* CL, const char* x) {
 	if (CL == NULL) return;
 	ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
 	strncpy_s(newNode->data, sizeof(newNode->data), x, sizeof(newNode->data) - 1);
 	newNode->data[sizeof(newNode->data) - 1] = '\0';
 	if (CL->head == NULL) {
-		// ¸®½ºÆ®°¡ ºñ¾îÀÖ´Â °æ¿ì
+		// ë¦¬ìŠ¤íŠ¸ê°€ ë¹„ì–´ìžˆëŠ” ê²½ìš°
 		newNode->link = newNode;
 		CL->head = newNode;
 	}
 	else {
-		// ¸®½ºÆ®¿¡ ³ëµå°¡ ÀÖ´Â °æ¿ì
+		// ë¦¬ìŠ¤íŠ¸ì— ë…¸ë“œê°€ ìžˆëŠ” ê²½ìš°
 		ListNode* temp = CL->head;
 		while (temp->link != CL->head) {
 			temp = temp->link;
@@ -68,178 +68,65 @@ void insertFirstNode(LinkedList_h* CL, const char* x) {
 	}
 }
 
-// ¿øÇü ¿¬°á ¸®½ºÆ®¿¡¼­ ³ëµå p¸¦ »èÁ¦ÇÏ´Â ¿¬»ê
+// ì›í˜• ì—°ê²° ë¦¬ìŠ¤íŠ¸ì—ì„œ ë…¸ë“œ pë¥¼ ì‚­ì œí•˜ëŠ” ì—°ì‚°
 void deleteNode(LinkedList_h* CL, ListNode* p) {
 	ListNode* pre;
 
-	if (CL->head == NULL || p == NULL) return; // °ø¹é ¸®½ºÆ® ¶Ç´Â »èÁ¦ÇÒ ³ëµå°¡ ¾ø´Â °æ¿ì Áß´Ü
+	if (CL->head == NULL || p == NULL) return; // ê³µë°± ë¦¬ìŠ¤íŠ¸ ë˜ëŠ” ì‚­ì œí•  ë…¸ë“œê°€ ì—†ëŠ” ê²½ìš° ì¤‘ë‹¨
 
-	// ¸®½ºÆ®¿¡ ³ëµå°¡ ÇÑ °³¸¸ ÀÖ´Â °æ¿ì
+	// ë¦¬ìŠ¤íŠ¸ì— ë…¸ë“œê°€ í•œ ê°œë§Œ ìžˆëŠ” ê²½ìš°
 	if (CL->head == CL->head->link) {
-		if (CL->head == p) { // »èÁ¦ÇÒ ³ëµå°¡ À¯ÀÏÇÑ ³ëµå¶ó¸é
-			free(CL->head);  // ¸Þ¸ð¸® ÇØÁ¦
-			CL->head = NULL; // ¸®½ºÆ® ÃÊ±âÈ­
+		if (CL->head == p) { // ì‚­ì œí•  ë…¸ë“œê°€ ìœ ì¼í•œ ë…¸ë“œë¼ë©´
+			free(CL->head);  // ë©”ëª¨ë¦¬ í•´ì œ
+			CL->head = NULL; // ë¦¬ìŠ¤íŠ¸ ì´ˆê¸°í™”
 		}
 		return;
 	}
 
-	// »èÁ¦ÇÒ ³ëµå°¡ Ã¹ ¹øÂ° ³ëµåÀÎ °æ¿ì
+	// ì‚­ì œí•  ë…¸ë“œê°€ ì²« ë²ˆì§¸ ë…¸ë“œì¸ ê²½ìš°
 	if (p == CL->head) {
-		// ¸¶Áö¸· ³ëµå¸¦ Ã£¾Æ¾ß ÇÔ
+		// ë§ˆì§€ë§‰ ë…¸ë“œë¥¼ ì°¾ì•„ì•¼ í•¨
 		pre = CL->head;
 		while (pre->link != CL->head) {
 			pre = pre->link;
 		}
-		pre->link = CL->head->link; // ¸¶Áö¸· ³ëµå°¡ Ã¹ ¹øÂ° ³ëµåÀÇ ´ÙÀ½ ³ëµå¸¦ °¡¸®Å°µµ·Ï ¼³Á¤
-		CL->head = CL->head->link; // Çìµå °»½Å
-		free(p);                   // »èÁ¦ ³ëµå ¸Þ¸ð¸® ÇØÁ¦
+		pre->link = CL->head->link; // ë§ˆì§€ë§‰ ë…¸ë“œê°€ ì²« ë²ˆì§¸ ë…¸ë“œì˜ ë‹¤ìŒ ë…¸ë“œë¥¼ ê°€ë¦¬í‚¤ë„ë¡ ì„¤ì •
+		CL->head = CL->head->link; // í—¤ë“œ ê°±ì‹ 
+		free(p);                   // ì‚­ì œ ë…¸ë“œ ë©”ëª¨ë¦¬ í•´ì œ
 		return;
 	}
 
-	// »èÁ¦ÇÒ ³ëµå°¡ Ã¹ ¹øÂ° ³ëµå°¡ ¾Æ´Ñ °æ¿ì
+	// ì‚­ì œí•  ë…¸ë“œê°€ ì²« ë²ˆì§¸ ë…¸ë“œê°€ ì•„ë‹Œ ê²½ìš°
 	pre = CL->head;
 	while (pre->link != p && pre->link != CL->head) {
 		pre = pre->link;
 	}
 
-	if (pre->link == p) { // ¼±Çà ³ëµå¸¦ Ã£Àº °æ¿ì
-		pre->link = p->link; // ¼±Çà ³ëµå¿Í »èÁ¦ ³ëµåÀÇ ´ÙÀ½ ³ëµå ¿¬°á
-		free(p);             // »èÁ¦ ³ëµå ¸Þ¸ð¸® ÇØÁ¦
+	if (pre->link == p) { // ì„ í–‰ ë…¸ë“œë¥¼ ì°¾ì€ ê²½ìš°
+		pre->link = p->link; // ì„ í–‰ ë…¸ë“œì™€ ì‚­ì œ ë…¸ë“œì˜ ë‹¤ìŒ ë…¸ë“œ ì—°ê²°
+		free(p);             // ì‚­ì œ ë…¸ë“œ ë©”ëª¨ë¦¬ í•´ì œ
 	}
 }
 
 int main() {
 	LinkedList_h* CL = createLinkedList_h();
 
-	// ¿øÇü ¿¬°á ¸®½ºÆ®¿¡ ³ëµå »ðÀÔ
-	insertFirstNode(CL, "¿ù");
-	insertFirstNode(CL, "È­");
-	insertFirstNode(CL, "¼ö");
-	printList(CL); // Ãâ·Â: ¼ö È­ ¿ù
+	// ì›í˜• ì—°ê²° ë¦¬ìŠ¤íŠ¸ì— ë…¸ë“œ ì‚½ìž…
+	insertFirstNode(CL, "ì›”");
+	insertFirstNode(CL, "í™”");
+	insertFirstNode(CL, "ìˆ˜");
+	printList(CL); // ì¶œë ¥: ìˆ˜ í™” ì›”
 
-	// ³ëµå »èÁ¦
-	deleteNode(CL, CL->head); // "¼ö" ³ëµå »èÁ¦
-	printList(CL); // Ãâ·Â: È­ ¿ù
+	// ë…¸ë“œ ì‚­ì œ
+	deleteNode(CL, CL->head); // "ìˆ˜" ë…¸ë“œ ì‚­ì œ
+	printList(CL); // ì¶œë ¥: í™” ì›”
 
-	deleteNode(CL, CL->head); // "È­" ³ëµå »èÁ¦
-	printList(CL); // Ãâ·Â: ¿ù
+	deleteNode(CL, CL->head); // "í™”" ë…¸ë“œ ì‚­ì œ
+	printList(CL); // ì¶œë ¥: ì›”
 
-	deleteNode(CL, CL->head); // "¿ù" ³ëµå »èÁ¦
-	printList(CL); // Ãâ·Â: ¸®½ºÆ®°¡ ºñ¾îÀÖ½À´Ï´Ù.
+	deleteNode(CL, CL->head); // "ì›”" ë…¸ë“œ ì‚­ì œ
+	printList(CL); // ì¶œë ¥: ë¦¬ìŠ¤íŠ¸ê°€ ë¹„ì–´ìžˆìŠµë‹ˆë‹¤.
 
 	freeLinkedList_h(CL);
 	return 0;
 }
-
-/*
-// ¿øÇü ¿¬°á ¸®½ºÆ®ÀÇ Ã¹ ¹øÂ° ³ëµå·Î »ðÀÔÇÏ´Â ¿¬»ê
-void insertFirstNode(LinkedList_h* CL, const char* x) {
-	if (CL == NULL) return;
-	ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-	strncpy_s(newNode->data, sizeof(newNode->data), x, sizeof(newNode->data) - 1);
-	newNode->data[sizeof(newNode->data) - 1] = '\0';
-	if (CL->head == NULL) {
-		// ¸®½ºÆ®°¡ ºñ¾îÀÖ´Â °æ¿ì
-		newNode->link = newNode;
-		CL->head = newNode;
-	}
-	else {
-		// ¸®½ºÆ®¿¡ ³ëµå°¡ ÀÖ´Â °æ¿ì
-		ListNode* temp = CL->head;
-		while (temp->link != CL->head) {
-			temp = temp->link;
-		}
-		temp->link = newNode;
-		newNode->link = CL->head;
-		CL->head = newNode;
-	}
-}
-
-// ¿øÇü ¿¬°á ¸®½ºÆ®¿¡¼­ pre ³ëµå µÚ¿¡ »ðÀÔÇÏ´Â ¿¬»ê
-void insertMiddleNode(LinkedList_h* CL, ListNode* pre, const char* x) {
-	if (CL == NULL || pre == NULL) {
-		printf("¿À·ù: ¿¬°á ¸®½ºÆ® ¶Ç´Â pre ³ëµå°¡ NULLÀÔ´Ï´Ù.\n");
-		return;
-	}
-
-	// »õ·Î¿î ³ëµå »ý¼º ¹× µ¥ÀÌÅÍ ÃÊ±âÈ­
-	ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-	if (!newNode) {
-		printf("¿À·ù: ¸Þ¸ð¸® ÇÒ´ç ½ÇÆÐ\n");
-		return;
-	}
-
-	strncpy(newNode->data, x, sizeof(newNode->data) - 1);
-	newNode->data[sizeof(newNode->data) - 1] = '\0'; // ¹®ÀÚ¿­ Á¾·á º¸Àå
-
-	// ³ëµå »ðÀÔ
-	newNode->link = pre->link; // »õ ³ëµåÀÇ ¸µÅ©¸¦ preÀÇ ´ÙÀ½ ³ëµå·Î ¼³Á¤
-	pre->link = newNode;       // preÀÇ ¸µÅ©¸¦ »õ ³ëµå·Î ¼³Á¤
-}
-
-// ¿øÇü ¿¬°á ¸®½ºÆ®¿¡ ³ëµå¸¦ »ðÀÔÇÏ´Â ¿¬»ê (¸¶Áö¸· ³ëµå·Î)
-void insertNode(LinkedList_h* CL, const char* x) {
-	ListNode* newNode;
-	ListNode* temp;
-
-	// »õ ³ëµå »ý¼º ¹× µ¥ÀÌÅÍ º¹»ç
-	newNode = (ListNode*)malloc(sizeof(ListNode));
-	strncpy_s(newNode->data, sizeof(newNode->data), x, sizeof(newNode->data) - 1);
-	newNode->data[sizeof(newNode->data) - 1] = '\0'; // ¹®ÀÚ¿­ Á¾·á º¸Àå
-	newNode->link = NULL; // ÃÊ±âÈ­ (ºñ¾î ÀÖ´Â »óÅÂ·Î ½ÃÀÛ)
-
-	if (CL->head == NULL) { // ÇöÀç ¸®½ºÆ®°¡ °ø¹éÀÎ °æ¿ì
-		CL->head = newNode;    // »õ ³ëµå¸¦ ¸®½ºÆ®ÀÇ ½ÃÀÛ ³ëµå·Î ¼³Á¤
-		newNode->link = newNode; // ÀÚ±â ÀÚ½ÅÀ» °¡¸®Å°µµ·Ï ¼³Á¤
-	}
-	else {
-		// ÇöÀç ¸®½ºÆ®°¡ °ø¹éÀÌ ¾Æ´Ñ °æ¿ì
-		temp = CL->head;
-		while (temp->link != CL->head) { // ¿øÇü ¿¬°á ¸®½ºÆ®¿¡¼­ ¸¶Áö¸· ³ëµå Ã£±â
-			temp = temp->link;
-		}
-		temp->link = newNode; // ¸¶Áö¸· ³ëµåÀÇ ´ÙÀ½ ³ëµå·Î »õ ³ëµå ¿¬°á
-		newNode->link = CL->head; // »õ ³ëµåÀÇ ´ÙÀ½ ³ëµå¸¦ ¸®½ºÆ®ÀÇ ½ÃÀÛ ³ëµå·Î ¿¬°á
-	}
-}
-
-// ¿øÇü ¿¬°á ¸®½ºÆ®¿¡¼­ ³ëµå p¸¦ »èÁ¦ÇÏ´Â ¿¬»ê
-void deleteNode(LinkedList_h* CL, ListNode* p) {
-	ListNode* pre;
-
-	if (CL->head == NULL || p == NULL) return; // °ø¹é ¸®½ºÆ® ¶Ç´Â »èÁ¦ÇÒ ³ëµå°¡ ¾ø´Â °æ¿ì Áß´Ü
-
-	// ¸®½ºÆ®¿¡ ³ëµå°¡ ÇÑ °³¸¸ ÀÖ´Â °æ¿ì
-	if (CL->head == CL->head->link) {
-		if (CL->head == p) { // »èÁ¦ÇÒ ³ëµå°¡ À¯ÀÏÇÑ ³ëµå¶ó¸é
-			free(CL->head);  // ¸Þ¸ð¸® ÇØÁ¦
-			CL->head = NULL; // ¸®½ºÆ® ÃÊ±âÈ­
-		}
-		return;
-	}
-
-	// »èÁ¦ÇÒ ³ëµå°¡ Ã¹ ¹øÂ° ³ëµåÀÎ °æ¿ì
-	if (p == CL->head) {
-		// ¸¶Áö¸· ³ëµå¸¦ Ã£¾Æ¾ß ÇÔ
-		pre = CL->head;
-		while (pre->link != CL->head) {
-			pre = pre->link;
-		}
-		pre->link = CL->head->link; // ¸¶Áö¸· ³ëµå°¡ Ã¹ ¹øÂ° ³ëµåÀÇ ´ÙÀ½ ³ëµå¸¦ °¡¸®Å°µµ·Ï ¼³Á¤
-		CL->head = CL->head->link; // Çìµå °»½Å
-		free(p);                   // »èÁ¦ ³ëµå ¸Þ¸ð¸® ÇØÁ¦
-		return;
-	}
-
-	// »èÁ¦ÇÒ ³ëµå°¡ Ã¹ ¹øÂ° ³ëµå°¡ ¾Æ´Ñ °æ¿ì
-	pre = CL->head;
-	while (pre->link != p && pre->link != CL->head) {
-		pre = pre->link;
-	}
-
-	if (pre->link == p) { // ¼±Çà ³ëµå¸¦ Ã£Àº °æ¿ì
-		pre->link = p->link; // ¼±Çà ³ëµå¿Í »èÁ¦ ³ëµåÀÇ ´ÙÀ½ ³ëµå ¿¬°á
-		free(p);             // »èÁ¦ ³ëµå ¸Þ¸ð¸® ÇØÁ¦
-	}
-}
-*/
