@@ -345,7 +345,7 @@ n개의 정점으로 이루어진 무 방향 그래프 G에서 n개의 모든 �
 ### 최소 비용 신장 트리 (Minimum cost Spanning Tree)
 무 방향 가중치 그래프에서 신장 트리를 구성하는 간선들의 가중치 합이 최소인 신장 트리
 
-### 크루스칼 알고리즘 (Kruskal’s algorithm)
+### 크루스칼 알고리즘 (Kruskal Algorithm)
 가중치가 높은 간선을 제거하면서 최소 비용 신장 트리를 만드는 방법
 - Greedy Algorithm
 
@@ -417,7 +417,7 @@ Edge (3, 4) with weight 9
 Total weight of MST: 31
 ```
 
-### 프림 알고리즘 (Prim’s algorithm)
+### 프림 알고리즘 (Prim Algorithm)
 간선을 정렬하지 않고 하나의 정점에서 시작하여 트리를 확장해 나가는 방법
 - Greedy Algorithm
 
