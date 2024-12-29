@@ -21,11 +21,15 @@ singly_linked_list.c
 단순 연결 리스트에서 마지막 노드를 리스트의 첫 번째 노드로 가리키도록 하여 원형 구조로 만든 리스트
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/1-4.png?raw=true)
 circular_linked_list.c
+```c
+```
 
 ### 이중 연결 리스트
 리스트를 양쪽 방향으로 순회할 수 있도록 링크 필드를 두 개 사용하여 양방향 노드를 연결한 리스트
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/1-5.png?raw=true)
 douply_linked_list.c
+```c
+```
 
 # 2. 스택 (Stack)
 자료를 차곡차곡 쌓아 올린 형태의 자료구조
@@ -38,11 +42,15 @@ douply_linked_list.c
 배열을 이용한 스택
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/2-2.png?raw=true)
 stack_array.c
+```c
+```
 
 ## 2.2. 연결 스택
 연결 리스트를 이용한 스택
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/2-3.png?raw=true)
 stack_linked_list.c
+```c
+```
 
 # 3. 큐 (Queue)
 데이터를 뒤에서만 삽입하고, 앞에서만 삭제할 수 있는 구조 
@@ -56,17 +64,23 @@ stack_linked_list.c
 - rear가 배열의 마지막 인덱스에 도달하면, 배열에 빈자리가 있어도 포화 상태가 될 수 있음
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/3-2.png?raw=true)
 queue_array.c
+```c
+```
 
 ## 3.2. 원형 큐
 1차원 배열에서 처음과 끝을 논리적으로 연결한 큐
 - 순차 큐의 잘못된 포화 상태 문제를 해결함
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/3-3.png?raw=true)
 circular_queue_array.c
+```c
+```
 
 ## 3.3. 연결 큐
 노드의 양쪽에 포인터를 연결하여 구성된 큐
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/3-4.png?raw=true)
 queue_linked_list.c
+```c
+```
 
 # 4. 데크 (Deque)
 큐 두 개 중 하나를 좌우로 뒤집어서 붙인 구조로, 큐의 양쪽 끝에서 삽입과 삭제 연산을 수행
@@ -76,11 +90,15 @@ queue_linked_list.c
 효율적인 공간 활용을 위해 원형 큐 기반 데크
 - 양쪽 끝에서 삽입, 삭제 연산을 수행하면서 오버헤드가 발생하므로 순차 자료구조는 비효율적
 deque_circular_queue.c
+```c
+```
 
 ## 4.2. 연결 데크
 이중 연결 리스트를 사용한 데크
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/4-2.png?raw=true)
 deque_douply_linked_list.c
+```c
+```
 
 # 5. 트리
 상위 원소에서 하위 원소로 내려가면서 확장되는 트리(나무)모양의 계층형 구조, (1:N 관계)
@@ -115,10 +133,14 @@ deque_douply_linked_list.c
 ### 배열 기반 구현
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-6.png?raw=true)
 binary_tree_array.c
+```c
+```
 
 ### 연결 리스트 기반 구현
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-7.png?raw=true)
 binary_tree_linked_list.c
+```c
+```
 
 ## 5.2. 이진 트리 순회
 - **D**: 현재 (루트) 노드
@@ -148,6 +170,8 @@ binary_tree_linked_list.c
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-12.png?raw=true)
 
 binary_search_tree.c
+```c
+```
 
 ## 5.4. AVL 트리 (Adelson-Velskii, Landis Tree)
 균형 잡힌 이진 탐색 트리로, 각 노드에서 왼쪽 서브 트리 높이와 오른쪽 서브 트리 높이의 차이가 1 이하인 트리
@@ -170,7 +194,9 @@ binary_search_tree.c
 
 ### 배열 기반으로 최대 힙 구현
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-16.png?raw=true)
-max_heap.c
+max_heap_array.c
+```c
+```
 
 # 6. 그래프
 연결되어 있는 원소 사이의 다대다 관계를 표현하는 자료구조
@@ -198,11 +224,15 @@ max_heap.c
 2차원 배열을 사용하여 그래프의 두 정점을 연결한 간선의 유무를 행렬로 나타내는 방법
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-6.png?raw=true)
 graph_adjmatrix.c
+```c
+```
 
 ### 인접 리스트
 연결 리스트를 사용하여 각 정점에 대한 인접 정점들을 연결하여 나타내는 방법
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-7.png?raw=true)
 graph_adjlist.c
+```c
+```
 
 ## 6.3. 그래프 순회
 ### **깊이 우선 탐색 (DFS: Depth First Search)**
@@ -216,6 +246,8 @@ graph_adjlist.c
     3. 스택이 공백이 될 때까지 위를 반복
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-8.png?raw=true)
 DFS.c
+```c
+```
 
 ### **너비 우선 탐색 (BFS: Breadth First Search)**
 시작 정점에서 가까운 정점부터 차례로 방문하며, 인접 정점을 레벨 별로 탐색하는 방법
@@ -228,6 +260,8 @@ DFS.c
     3. 큐가 공백이 될 때까지 위를 반복
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-9.png?raw=true)
 BFS.c
+```c
+```
 
 ## 6.4. 신장 트리와 최소 비용 신장 트리
 ### 신장 트리 (Spanning Tree)
