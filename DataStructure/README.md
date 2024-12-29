@@ -402,11 +402,9 @@ void kruskal(graphType* g) {
 }
 ```
 
-![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-11.png?raw=true)
-
 그래프 G10 실행 결과
 
-![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-12.png?raw=true)
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-11.png?raw=true)
 
 ```c
 그래프 G10의 Minimum Spanning Tree:
@@ -436,7 +434,7 @@ Total weight of MST: 31
 
 그래프 G10 실행 결과
 
-![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-13.png?raw=true)
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-12.png?raw=true)
 
 ```c
 ```
