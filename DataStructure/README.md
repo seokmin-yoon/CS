@@ -619,9 +619,101 @@ Linked Queue elements: B C D
 deque_circular_queue.c
 
 ```c
+typedef char element;
+
+typedef struct {
+    element data[MAX_DEQUE_SIZE];
+    int front;
+    int rear;
+} DQueType;
+
+// 순차 데크 생성 함수
+DQueType* createDQue() {
+    DQueType* DQ = (DQueType*)malloc(sizeof(DQueType));
+    DQ->front = 0;
+    DQ->rear = 0;
+    return DQ;
+}
+
+// 순차 데크가 비었는지 확인하는 함수
+int isEmpty(DQueType* DQ) {
+    return (DQ->front == DQ->rear);
+}
+
+// 순차 데크가 가득 찼는지 확인하는 함수
+int isFull(DQueType* DQ) {
+    return ((DQ->rear + 1) % MAX_DEQUE_SIZE == DQ->front);
+}
+
+// 앞에 데이터 삽입하는 함수
+void insertFront(DQueType* DQ, element item) {
+    if (isFull(DQ)) {
+        printf("Array-based Deque is full!\n");
+        return;
+    }
+    DQ->front = (DQ->front - 1 + MAX_DEQUE_SIZE) % MAX_DEQUE_SIZE;
+    DQ->data[DQ->front] = item;
+}
+
+// 뒤에 데이터 삽입하는 함수
+void insertRear(DQueType* DQ, element item) {
+    if (isFull(DQ)) {
+        printf("Array-based Deque is full!\n");
+        return;
+    }
+    DQ->data[DQ->rear] = item;
+    DQ->rear = (DQ->rear + 1) % MAX_DEQUE_SIZE;
+}
+
+// 앞에서 데이터 제거하는 함수
+element deleteFront(DQueType* DQ) {
+    if (isEmpty(DQ)) {
+        printf("Array-based Deque is empty!\n");
+        return '\0';
+    }
+    element item = DQ->data[DQ->front];
+    DQ->front = (DQ->front + 1) % MAX_DEQUE_SIZE;
+    return item;
+}
+
+// 뒤에서 데이터 제거하는 함수
+element deleteRear(DQueType* DQ) {
+    if (isEmpty(DQ)) {
+        printf("Array-based Deque is empty!\n");
+        return '\0';
+    }
+    DQ->rear = (DQ->rear - 1 + MAX_DEQUE_SIZE) % MAX_DEQUE_SIZE;
+    return DQ->data[DQ->rear];
+}
+
+// 순차 데크의 앞에 있는 원소 확인하는 함수
+element peekFront(DQueType* DQ) {
+    if (isEmpty(DQ)) {
+        printf("Array-based Deque is empty!\n");
+        return '\0';
+    }
+    return DQ->data[DQ->front];
+}
+
+// 순차 데크의 뒤에 있는 원소 확인하는 함수
+element peekRear(DQueType* DQ) {
+    if (isEmpty(DQ)) {
+        printf("Array-based Deque is empty!\n");
+        return '\0';
+    }
+    return DQ->data[(DQ->rear - 1 + MAX_DEQUE_SIZE) % MAX_DEQUE_SIZE];
+}
 ```
 
 ```c
+Array-based Deque elements: A
+Array-based Deque elements: A B C
+Deleted from front: A
+Array-based Deque elements: B C
+Deleted from rear: C
+Array-based Deque elements: B
+Front element: B
+Rear element: B
 ```
 
 ## 4.2. 연결 데크
@@ -632,9 +724,134 @@ deque_circular_queue.c
 deque_douply_linked_list.c
 
 ```c
+typedef char element;
+
+typedef struct DQNode {
+    element data;
+    struct DQNode* llink;
+    struct DQNode* rlink;
+} DQNode;
+
+typedef struct {
+    DQNode* front, * rear;
+} DQueType;
+
+DQueType* createDQue() {
+    DQueType* DQ = (DQueType*)malloc(sizeof(DQueType));
+    DQ->front = NULL;
+    DQ->rear = NULL;
+    return DQ;
+}
+
+// 연결 데크가 비었는지 확인하는 함수
+int isEmpty(DQueType* DQ) {
+    return (DQ->front == NULL);
+}
+
+// 앞에 데이터 삽입하는 함수
+void insertFront(DQueType* DQ, element item) {
+    DQNode* newNode = (DQNode*)malloc(sizeof(DQNode));
+    newNode->data = item;
+    newNode->llink = NULL;
+    newNode->rlink = DQ->front;
+
+    if (isEmpty(DQ)) {
+        DQ->front = DQ->rear = newNode;
+    }
+    else {
+        DQ->front->llink = newNode;
+        DQ->front = newNode;
+    }
+}
+
+// 뒤에 데이터 삽입하는 함수
+void insertRear(DQueType* DQ, element item) {
+    DQNode* newNode = (DQNode*)malloc(sizeof(DQNode));
+    newNode->data = item;
+    newNode->rlink = NULL;
+    newNode->llink = DQ->rear;
+
+    if (isEmpty(DQ)) {
+        DQ->front = DQ->rear = newNode;
+    }
+    else {
+        DQ->rear->rlink = newNode;
+        DQ->rear = newNode;
+    }
+}
+
+// 앞에서 데이터 제거하는 함수
+element deleteFront(DQueType* DQ) {
+    if (isEmpty(DQ)) {
+        printf("Linked Deque is empty!\n");
+        return '\0';
+    }
+
+    DQNode* temp = DQ->front;
+    element item = temp->data;
+    DQ->front = DQ->front->rlink;
+
+    if (DQ->front == NULL) {
+        DQ->rear = NULL;  // 데크가 비어있으면 rear도 NULL
+    }
+    else {
+        DQ->front->llink = NULL;
+    }
+
+    free(temp);
+    return item;
+}
+
+// 뒤에서 데이터 제거하는 함수
+element deleteRear(DQueType* DQ) {
+    if (isEmpty(DQ)) {
+        printf("Linked Deque is empty!\n");
+        return '\0';
+    }
+
+    DQNode* temp = DQ->rear;
+    element item = temp->data;
+    DQ->rear = DQ->rear->llink;
+
+    if (DQ->rear == NULL) {
+        DQ->front = NULL;  // 데크가 비어있으면 front도 NULL
+    }
+    else {
+        DQ->rear->rlink = NULL;
+    }
+
+    free(temp);
+    return item;
+}
+
+// 연결 데크의 앞에 있는 원소 확인하는 함수
+element peekFront(DQueType* DQ) {
+    if (isEmpty(DQ)) {
+        printf("Linked Deque is empty!\n");
+        return '\0';
+    }
+    return DQ->front->data;
+}
+
+// 연결 데크의 뒤에 있는 원소 확인하는 함수
+element peekRear(DQueType* DQ) {
+    if (isEmpty(DQ)) {
+        printf("Linked Deque is empty!\n");
+        return '\0';
+    }
+    return DQ->rear->data;
+}
 ```
 
 ```c
+Linked Deque elements: A
+Linked Deque elements: A B C
+Deleted from front: A
+Linked Deque elements: B C
+Deleted from rear: C
+Linked Deque elements: B
+Front element: B
+Rear element: B
 ```
 
 # 5. 트리
