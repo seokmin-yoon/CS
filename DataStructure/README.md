@@ -430,6 +430,47 @@ Total weight of MST: 31
 알고리즘
 
 ```c
+void prim(graphType* g) {
+    int selected[MAX_VERTEX] = { 0 };
+    int totalWeight = 0;
+    int edgesInTree = 0;
+
+    // B ← {0}
+    // 첫 번째 정점 선택
+    selected[0] = 1; 
+
+    printf("Minimum Spanning Tree Edges:\n");
+
+    while (edgesInTree < g->n - 1) { // T의 간선 개수가 N-1이 될 때까지 반복
+        int minWeight = INT_MAX;
+        int u = -1, v = -1;
+
+        // Find (u, v) with minimum weight where u ∈ B and v ∈ N-B
+        // 선택된 정점에서 선택되지 않은 정점으로 가는 최소 가중치 간선 찾기
+        for (int i = 0; i < g->n; i++) {
+            if (selected[i]) {
+                for (int j = 0; j < g->n; j++) {
+                    if (!selected[j] && g->adjMatrix[i][j] > 0 && g->adjMatrix[i][j] < minWeight) {
+                        minWeight = g->adjMatrix[i][j];
+                        u = i;
+                        v = j;
+                    }
+                }
+            }
+        }
+
+        // Add (u, v) to T and v to B
+        // 최소 가중치 간선 (u, v) 추가
+        if (u != -1 && v != -1) {
+            printf("Edge (%d, %d) with weight %d\n", u, v, minWeight);
+            totalWeight += minWeight;
+            selected[v] = 1; // 정점 v 선택
+            edgesInTree++;
+        }
+    }
+
+    printf("Total weight of Minimum Spanning Tree: %d\n", totalWeight);
+}
 ```
 
 그래프 G10 실행 결과
@@ -437,6 +478,14 @@ Total weight of MST: 31
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-12.png?raw=true)
 
 ```c
+그래프 G10의 Minimum Spanning Tree Edges:
+Edge (0, 1) with weight 3
+Edge (1, 3) with weight 5
+Edge (3, 4) with weight 9
+Edge (4, 6) with weight 2
+Edge (4, 5) with weight 4
+Edge (5, 2) with weight 8
+Total weight of Minimum Spanning Tree: 31
 ```
 
 ## 6.5. 최단 경로
