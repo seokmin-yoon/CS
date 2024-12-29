@@ -207,6 +207,7 @@ max_heap_array.c
 - **인접 (adjacent)**: 두 정점을 연결하는 간선이 존재할 때, 두 정점을 서로 인접 되어 있다고 함
 - **부속 (incident)**: 두 정점을 연결하는 간선이 존재할 때, 두 정점을 연결하는 간선은 부속 되어 있다고 함
 - **사이클(cycle)**: 시작점과 끝점이 동일한 경로로, 모든 간선을 한 번씩만 지나면서 순환하는 경로
+
 ## 6.1. 그래프 종류
 - **무방향 그래프 (undirected graph)**: 두 정점을 연결하는 간선에 방향이 없는 그래프
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-1.png?raw=true)
