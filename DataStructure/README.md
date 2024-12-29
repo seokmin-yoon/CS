@@ -894,6 +894,86 @@ Rear element: B
 binary_tree_array.c
 
 ```c
+typedef char element;
+
+// 이진 트리를 나타내는 구조체
+typedef struct {
+    element data[MAX_SIZE];  // 트리 데이터를 저장할 배열
+    int size;            // 트리의 현재 크기
+} BinaryTree;
+
+// 트리 초기화
+void initTree(BinaryTree* tree) {
+    tree->size = 0;
+}
+
+// 트리에 노드 삽입
+void insertNode(BinaryTree* tree, element value) {
+    if (tree->size >= MAX_SIZE) {
+        printf("트리가 가득 찼습니다.\n");
+        return;
+    }
+    tree->data[tree->size] = value;
+    tree->size++;
+}
+
+// 트리 출력 (단순히 배열을 출력)
+void printTree(BinaryTree* tree) {
+    printf("이진 트리: ");
+    for (int i = 0; i < tree->size; i++) {
+        printf("%c ", tree->data[i]);
+    }
+    printf("\n");
+}
+
+// 트리 그래프 형태로 출력 (계층적 구조)
+void printTreeGraph(BinaryTree* tree, int index, int level) {
+    if (index >= tree->size) return;
+
+    // 오른쪽 자식 노드 먼저 출력 (오른쪽부터 왼쪽으로 출력)
+    int rightIndex = rightChild(index);
+    if (rightIndex < tree->size) {
+        printTreeGraph(tree, rightIndex, level + 1);
+    }
+
+    // 현재 노드 출력 (중앙에 배치)
+    for (int i = 0; i < level; i++) {
+        printf("    ");  // 공백을 넣어서 들여쓰기
+    }
+    printf("%c[%d]\n", tree->data[index], index);
+
+    // 왼쪽 자식 노드 출력
+    int leftIndex = leftChild(index);
+    if (leftIndex < tree->size) {
+        printTreeGraph(tree, leftIndex, level + 1);
+    }
+}
+
+// 왼쪽 자식의 인덱스 반환
+int leftChild(int index) {
+    return 2 * index + 1;
+}
+
+// 오른쪽 자식의 인덱스 반환
+int rightChild(int index) {
+    return 2 * index + 2;
+}
+
+// 부모의 인덱스 반환
+int parent(int index) {
+    if (index == 0) return -1;  // 루트 노드는 부모가 없다
+    return (index - 1) / 2;
+}
+```
+
+```c
+        G[6]
+    C[2]
+        F[5]
+A[0]
+        E[4]
+    B[1]
+        D[3]
 ```
 
 ### 연결 리스트 기반 구현
@@ -902,6 +982,65 @@ binary_tree_array.c
 binary_tree_linked_list.c
 
 ```c
+// 이진 트리의 노드 구조체
+typedef struct treeNode {
+    element data;
+    struct treeNode* left;
+    struct treeNode* right;
+} treeNode;
+
+// 이진 트리 삽입 함수 (가장 간단한 형태로 삽입: 왼쪽 또는 오른쪽 자식이 비어있으면 삽입)
+void insertNode(treeNode** root, element data) {
+    if (*root == NULL) {
+        *root = createNode(data);
+    }
+    else {
+        // 왼쪽 자식부터 먼저 삽입하도록 변경
+        if ((*root)->left == NULL) {
+            (*root)->left = createNode(data);
+        }
+        else if ((*root)->right == NULL) {
+            (*root)->right = createNode(data);
+        }
+        else {
+            // 왼쪽 자식과 오른쪽 자식이 다 차 있으면 재귀적으로 삽입
+            insertNode(&(*root)->left, data);
+        }
+    }
+}
+
+// 전위 순회 출력
+void preorder(treeNode* root) {
+    if (root != NULL) {
+        printf("%c ", root->data);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+
+// 중위 순회 출력 함수
+void inorder(treeNode* root) {
+    if (root != NULL) {
+        inorder(root->left);
+        printf("%c ", root->data);
+        inorder(root->right);
+    }
+}
+
+// 후위 순회 출력
+void postorder(treeNode* root) {
+    if (root != NULL) {
+        postorder(root->left);
+        postorder(root->right);
+        printf("%c ", root->data);
+    }
+}
+```
+
+```c
+전위 순회 (Pre-order): A B D E C
+중위 순회 (In-order): D B E A C
+후위 순회 (Post-order): D E B C A
 ```
 
 ## 5.2. 이진 트리 순회
@@ -941,6 +1080,9 @@ binary_search_tree.c
 ```c
 ```
 
+```c
+```
+
 ## 5.4. AVL 트리 (Adelson-Velskii, Landis Tree)
 균형 잡힌 이진 탐색 트리로, 각 노드에서 왼쪽 서브 트리 높이와 오른쪽 서브 트리 높이의 차이가 1 이하인 트리
 - **균형 이진 탐색 트리 또는 균형 트리**: 이진 탐색 트리의 왼쪽과 오른쪽 서브 트리의 높이에 대한 균형 조건을 추가한 트리
@@ -969,6 +1111,9 @@ binary_search_tree.c
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-16.png?raw=true)
 
 max_heap_array.c
+
+```c
+```
 
 ```c
 ```
@@ -1010,12 +1155,18 @@ graph_adjmatrix.c
 ```c
 ```
 
+```c
+```
+
 ### 인접 리스트
 연결 리스트를 사용하여 각 정점에 대한 인접 정점들을 연결하여 나타내는 방법
 
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-7.png?raw=true)
 
 graph_adjlist.c
+
+```c
+```
 
 ```c
 ```
@@ -1038,6 +1189,9 @@ DFS.c
 ```c
 ```
 
+```c
+```
+
 ### **너비 우선 탐색 (BFS: Breadth First Search)**
 시작 정점에서 가까운 정점부터 차례로 방문하며, 인접 정점을 레벨 별로 탐색하는 방법
 - 큐 사용
@@ -1051,6 +1205,9 @@ DFS.c
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-9.png?raw=true)
 
 BFS.c
+
+```c
+```
 
 ```c
 ```
