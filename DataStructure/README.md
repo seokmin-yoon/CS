@@ -167,20 +167,25 @@
 - **사이클(cycle)**: 시작점과 끝점이 동일한 경로로, 모든 간선을 한 번씩만 지나면서 순환하는 경로
 ## 6.1. 그래프 종류
 - **무방향 그래프 (undirected graph)**: 두 정점을 연결하는 간선에 방향이 없는 그래프
-    
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-1.png?raw=true)
 - **방향 그래프 (directed graph), 다이그래프 (digraph)**: 간선에 방향이 있는 그래프
-    
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-2.png?raw=true)
 - **완전 그래프 (complete graph)**: 각 정점에서 다른 모든 정점을 연결하여 최대로 많은 간선 수를 가진 그래프
-    
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-3.png?raw=true)
 - **부분 그래프 (subgraph)**: 원래의 그래프에서 정점이나 간선을 일부만 제외하여 만든 그래프
-    
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-4.png?raw=true)
 - **가중 그래프 (weight graph), 네트워크 (network)**: 정점을 연결하는 간선에 가중치를 할당한 그래프
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-5.png?raw=true)
 
 ## 6.2. 그래프 구현
 ### 인접 행렬
 2차원 배열을 사용하여 그래프의 두 정점을 연결한 간선의 유무를 행렬로 나타내는 방법
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-6.png?raw=true)
+
 ### 인접 리스트
 연결 리스트를 사용하여 각 정점에 대한 인접 정점들을 연결하여 나타내는 방법
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-7.png?raw=true)
+
 ## 6.3. 그래프 순회
 ### **깊이 우선 탐색 (DFS: Depth First Search)**
 시작 정점에서 가능한 깊이까지 탐색한 후 되돌아와 미탐색 방향으로 진행해 모든 정점을 방문하는 방법
@@ -191,7 +196,8 @@
         1. 있으면 정점 v를 스택에 push하고 w를 방문
         2. 없으면 스택을 pop 하고 pop된 정점 v에서 2를 반복 수행
     3. 스택이 공백이 될 때까지 위를 반복
-       
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-8.png?raw=true)
+
 ### **너비 우선 탐색 (BFS: Breadth First Search)**
 시작 정점에서 가까운 정점부터 차례로 방문하며, 인접 정점을 레벨 별로 탐색하는 방법
 - 큐 사용
@@ -201,10 +207,12 @@
         1. 있으면 정점 v를 큐에 enqueue
         2. 없으면 정점 v를 큐에서 dequeue하여 정점 w를 받고 2를 반복 수행
     3. 큐가 공백이 될 때까지 위를 반복
-       
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-9.png?raw=true)
+    
 ## 6.4. 신장 트리와 최소 비용 신장 트리
 ### 신장 트리 (Spanning Tree)
 n개의 정점으로 이루어진 무 방향 그래프 G에서 n개의 모든 정점과 n-1개의 간선으로 만들어진 트리
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-10.png?raw=true)
 
 ### 최소 비용 신장 트리 (Minimum cost Spanning Tree)
 무 방향 가중치 그래프에서 신장 트리를 구성하는 간선들의 가중치 합이 최소인 신장 트리
