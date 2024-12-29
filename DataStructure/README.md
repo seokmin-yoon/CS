@@ -1361,9 +1361,56 @@ Heap: [20] [15] [19] [8] [13] [10]
 graph_adjmatrix.c
 
 ```c
+// 그래프를 인접 행렬로 표현하기 위한 구조체 정의
+typedef struct graphType {
+	int n; // 정점 개수
+	int adjMatrix[MAX_VERTEX][MAX_VERTEX];
+} graphType;
+
+// 공백 그리프를 생성하는 연산
+void createGraph(graphType* g) {
+	int i, j;
+	g->n = 0;
+	for (i = 0; i < MAX_VERTEX; i++) {
+		for (j = 0; j < MAX_VERTEX; j++)
+			g->adjMatrix[i][j] = 0;
+	}
+}
+
+// 그래프 g에 정점 v를 삽입하는 연산
+void insertVertex(graphType* g, int v) {
+	if (((g->n) + 1) > MAX_VERTEX) {
+		printf("그래프 정점의 개수를 초과하였습니다.\n");
+		return;
+	}
+	g->n++; // 그래프 정점 개수 n을 증가
+}
+
+// 그래프 g에 간선 (u, v)를 삽입하는 연산
+void insertEdge(graphType* g, int u, int v) {
+	if (u >= g->n || v >= g->n) {
+		printf("그래프에 없는 정점입니다.\n");
+		return;
+	}
+	g->adjMatrix[u][v] = 1; // 간선이 존재한다고 표기
+}
+
+void print_adjMatrix(graphType* g) {
+	int i, j;
+	for (i = 0; i < g->n; i++) {
+		printf("\n\t\t");
+		for (j = 0; j < g->n; j++)
+			printf("%2d", g->adjMatrix[i][j]);
+	}
+}
 ```
 
 ```c
+G3의 인접행렬
+                 0 1 0 1
+                 0 0 1 1
+                 0 0 0 1
+                 0 0 0 0
 ```
 
 ### 인접 리스트
@@ -1374,9 +1421,69 @@ graph_adjmatrix.c
 graph_adjlist.c
 
 ```c
+// 인접 리스트의 노드 구조를 구조체로 정의
+typedef struct graphNode {
+	int vertex;	// 정점을 나타내는 데이터 필드
+	struct graphNode* link; // 다음 인접 정점을 연결하는 링크 필드
+} graphNode;
+
+// 그래프를 인접 리스트로 표현하기 위한 구조체 정의
+typedef struct graphType {
+	int n; // 정점 개수
+	graphNode* adjList_H[MAX_VERTEX]; // 그래프 정점에 대한 헤드 포인트 설정
+} graphType;
+
+// 공백 그리프를 생성하는 연산
+void createGraph(graphType* g) {
+	g->n = 0;
+	for (int v = 0; v < MAX_VERTEX; v++) {
+		g->adjList_H[v] = NULL;	// 그래프의 정점에 대한 헤드 포인터 배열을 NULL으로 초기화
+	}
+}
+
+// 그래프 g에 정점 v를 삽입하는 연산
+void insertVertex(graphType* g, int v) {
+	if (((g->n) + 1) > MAX_VERTEX) {
+		printf("그래프 정점의 개수를 초과하였습니다.\n");
+		return;
+	}
+	g->n++; // 그래프 정점 개수 n을 증가
+}
+
+// 그래프 g에 간선 (u, v)를 삽입하는 연산
+void insertEdge(graphType* g, int u, int v) {
+	graphNode* node;
+
+	// 간선 (u, v)를 삽입하기 위해 정점 u와 v가 현재 그래프에 있는지 확인
+	if (u >= g->n || v >= g->n) {
+		printf("그래프에 없는 정점입니다.\n");
+		return;
+	}
+	node = (graphNode*)malloc(sizeof(graphNode));
+	node->vertex = v;
+	node->link = g->adjList_H[u]; // 삽입 간선에 대한 노드를 리스트의 첫 번째 노드로 연결
+	g->adjList_H[u] = node;
+}
+
+void print_adjList(graphType* g) {
+	graphNode* p;
+	for (int i = 0; i < g->n; i++) {
+		printf("\n\t\t정점 %c의 인접리스트", i + 65);
+		p = g->adjList_H[i];
+		while (p) {
+			printf("-> %c", p->vertex + 65); // 정점 0~3을 A~D로 출력
+			p = p->link;
+		}
+	}
+}
 ```
 
 ```c
+G3의 인접리스트
+                정점 A의 인접리스트-> D-> B
+                정점 B의 인접리스트-> D-> C
+                정점 C의 인접리스트-> D
+                정점 D의 인접리스트
 ```
 
 ## 6.3. 그래프 순회
@@ -1395,9 +1502,69 @@ graph_adjlist.c
 DFS.c
 
 ```c
+typedef struct graphNode {
+	int vertex;
+	struct graphNode* link;
+} graphNode;
+
+typedef struct graphType {
+	int n;
+	graphNode* adjList_H[MAX_VERTEX];
+	int visited[MAX_VERTEX]; // 정점에 대한 방문 표시를 위한 배열
+} graphType;
+
+typedef int element;
+
+typedef struct stackNode {
+	int data;
+	struct stackNode* link;
+} stackNode;
+
+stackNode* top;
+
+// 그래프 g에서 정점 v에 대한 깊이 우선 탐색 연산
+void DFS_adjList(graphType* g, int v) {
+	graphNode* w;
+	top = NULL;
+	push(v); // 시작 정점을 push
+	g->visited[v] = TRUE;
+	printf(" %c", v + 65);
+
+	// 스택이 공백이 아닌 동안 깊이 우선 탐색 반복
+	while (!isEmpty()) {
+		v = pop();
+		w = g->adjList_H[v];
+		// 인접 정점이 있는 동안 수행
+		while (w) {
+			// 현재 정점 w를 방문하지 않은 경우
+			if (!g->visited[w->vertex]) {
+				if (isEmpty()) // 정점 v로 돌아올 경우를 위해 다시 push
+					push(v);
+				push(w->vertex); // 현재 정점 w를 push
+				g->visited[w->vertex] = TRUE; // 정점 w에 대한 방문 여부를 true로 설정
+				printf(" %c", w->vertex + 65);
+				v = w->vertex;
+				w = g->adjList_H[v];
+			}
+			// 현재 정점 w가 이미 방문된 경우
+			else
+				w = w->link;
+		}
+	} // 스택이 공백이면 깊이 우선 탐색 종료
+}
 ```
 
 ```c
+G9의 인접리스트
+                정점 A의 인접리스트-> B-> C
+                정점 B의 인접리스트-> A-> D-> E
+                정점 C의 인접리스트-> A-> E
+                정점 D의 인접리스트-> B-> G
+                정점 E의 인접리스트-> B-> C-> G
+                정점 F의 인접리스트-> G
+                정점 G의 인접리스트-> D-> E-> F
+
+깊이 우선 탐색: A B D G E C F
 ```
 
 ### **너비 우선 탐색 (BFS: Breadth First Search)**
@@ -1415,9 +1582,63 @@ DFS.c
 BFS.c
 
 ```c
+typedef struct graphNode {
+	int vertex;
+	struct graphNode* link;
+} graphNode;
+
+typedef struct graphType {
+	int n;
+	graphNode* adjList_H[MAX_VERTEX];
+	int visited[MAX_VERTEX]; // 정점에 대한 방문 표시를 위한 배열
+} graphType;
+
+typedef int element;
+
+typedef struct QNode {
+	int data;
+	struct QNode* link;
+} QNode;
+
+typedef struct {
+	QNode* front, * rear;
+} LQueueType;
+
+// 그래프 g에서 정점 v에 대한 너비 우선 탐색
+void BFS_adjList(graphType* g, int v) {
+	graphNode* w;
+	LQueueType* Q;
+	Q = createLinkedQueue();
+	g->visited[v] = TRUE; // 시작 정점 v를 방문했다고 표기
+	printf(" %c", v + 65);
+	enQueue(Q, v); // 정점 v를 큐에 enqueue
+
+	// 큐가 공백이 아닌 동안 너비 우선 탐색 수행
+	while (!isEmpty(Q)) {
+		v = deQueue(Q);
+		// 현재 정점 w를 방문하지 않은 경우
+		for (w = g->adjList_H[v]; w; w = w->link) { // 인접 정점이 있는 동안 수행
+			if (!g->visited[w->vertex]) { // 정점 w가 방문하지 않은 정점인 경우
+				g->visited[w->vertex] = TRUE;
+				printf(" %c", w->vertex + 65);
+				enQueue(Q, w->vertex);
+			}
+		}
+	} // 큐가 공백이면 너비 우선 탐색 종료
+}
 ```
 
 ```c
+G9의 인접리스트
+                정점 A의 인접리스트-> B-> C
+                정점 B의 인접리스트-> A-> D-> E
+                정점 C의 인접리스트-> A-> E
+                정점 D의 인접리스트-> B-> G
+                정점 E의 인접리스트-> B-> C-> G
+                정점 F의 인접리스트-> G
+                정점 G의 인접리스트-> D-> E-> F
+
+너비 우선 탐색: A B C D E G F
 ```
 
 ## 6.4. 신장 트리와 최소 비용 신장 트리
