@@ -112,18 +112,22 @@ int main() {
 	LinkedList_h* CL = createLinkedList_h();
 
 	// 원형 연결 리스트에 노드 삽입
+	printf("월,화,수 노드 삽입\n");
 	insertFirstNode(CL, "월");
 	insertFirstNode(CL, "화");
 	insertFirstNode(CL, "수");
 	printList(CL); // 출력: 수 화 월
 
 	// 노드 삭제
+	printf("수 노드 삭제\n");
 	deleteNode(CL, CL->head); // "수" 노드 삭제
 	printList(CL); // 출력: 화 월
 
+	printf("화 노드 삭제\n");
 	deleteNode(CL, CL->head); // "화" 노드 삭제
 	printList(CL); // 출력: 월
 
+	printf("월 노드 삭제\n");
 	deleteNode(CL, CL->head); // "월" 노드 삭제
 	printList(CL); // 출력: 리스트가 비어있습니다.
 
