@@ -13,24 +13,30 @@
 
 ### 단순 연결 리스트
 노드가 하나의 링크 필드에 의해서 다음 노드와 연결되는 리스트
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/1-3.png?raw=true)
 
 ### 원형 연결 리스트
 단순 연결 리스트에서 마지막 노드를 리스트의 첫 번째 노드로 가리키도록 하여 원형 구조로 만든 리스트
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/1-4.png?raw=true)
 
 ### 이중 연결 리스트
 리스트를 양쪽 방향으로 순회할 수 있도록 링크 필드를 두 개 사용하여 양방향 노드를 연결한 리스트
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/1-5.png?raw=true)
 
 # 2. 스택 (Stack)
 자료를 차곡차곡 쌓아 올린 형태의 자료구조
 - LIFO (Last-In, First-Out)
 - 삽입 연산: push, 위치: top (아래 그림의 노란 블록)
 - 삭제 연산: pop, 위치: top
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/2-1.png?raw=true)
 
 ## 2.1. 순차 스택
 배열을 이용한 스택
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/2-2.png?raw=true)
 
 ## 2.2. 연결 스택
 연결 리스트를 이용한 스택
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/2-3.png?raw=true)
 
 # 3. 큐 (Queue)
 데이터를 뒤에서만 삽입하고, 앞에서만 삭제할 수 있는 구조 
