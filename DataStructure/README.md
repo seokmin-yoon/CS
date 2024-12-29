@@ -61,6 +61,7 @@
 
 # 4. 데크 (Deque)
 큐 두 개 중 하나를 좌우로 뒤집어서 붙인 구조로, 큐의 양쪽 끝에서 삽입과 삭제 연산을 수행
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/4-1.png?raw=true)
 
 ## 4.1. 순차 데크
 효율적인 공간 활용을 위해 원형 큐 기반 데크
@@ -68,6 +69,7 @@
 
 ## 4.2. 연결 데크
 이중 연결 리스트를 사용한 데크
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/4-2.png?raw=true)
 
 # 5. 트리
 상위 원소에서 하위 원소로 내려가면서 확장되는 트리(나무)모양의 계층형 구조, (1:N 관계)
