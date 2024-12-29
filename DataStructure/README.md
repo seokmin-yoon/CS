@@ -15,6 +15,7 @@
 노드가 하나의 링크 필드에 의해서 다음 노드와 연결되는 리스트
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/1-3.png?raw=true)
 singly_linked_list.c
+```c
 
 ### 원형 연결 리스트
 단순 연결 리스트에서 마지막 노드를 리스트의 첫 번째 노드로 가리키도록 하여 원형 구조로 만든 리스트
