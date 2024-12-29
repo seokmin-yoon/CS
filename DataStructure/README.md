@@ -401,9 +401,59 @@ element peek() {
 queue_array.c
 
 ```c
+typedef char element;
+
+typedef struct {
+	element queue[Q_SIZE];
+	int front, rear;
+} QueueType;
+
+QueueType* createQueue() {
+	QueueType* Q = (QueueType*)malloc(sizeof(QueueType));
+	Q->front = -1;
+	Q->rear = -1;
+	return Q;
+}
+
+// 순차 큐가 비었는지 확인하는 함수
+int isEmpty(QueueType* Q) {
+	return (Q->front == Q->rear);
+}
+
+// 순차 큐가 꽉 찼는지 확인하는 함수
+int isFull(QueueType* Q) {
+	return (Q->rear == Q_SIZE - 1);
+}
+
+// 순차 큐에 데이터를 삽입하는 함수
+void enQueue(QueueType* Q, element item) {
+	if (isFull(Q)) return;
+	else {
+		Q->rear++;
+		Q->queue[Q->rear] = item;
+	}
+}
+
+// 순차 큐에서 데이터를 제거하는 함수
+element deQueue(QueueType* Q) {
+	if (isEmpty(Q)) return;
+	else {
+		Q->front++;
+		return Q->queue[Q->front];
+	}
+}
+
+// 순차 큐의 가장 앞에 있는 원소를 검색하는 연산
+element peek(QueueType* Q) {
+	if (isEmpty(Q)) return;
+	else return Q->queue[Q->front + 1];
+}
 ```
 
 ```c
+Queue elements: A B C
+Dequeued: A
+Queue elements: B C
 ```
 
 ## 3.2. 원형 큐
@@ -415,9 +465,64 @@ queue_array.c
 circular_queue_array.c
 
 ```c
+typedef char element;
+
+typedef struct {
+	element queue[Q_SIZE];
+	int front, rear;
+} QueueType;
+
+QueueType* createQueue() {
+	QueueType* Q = (QueueType*)malloc(sizeof(QueueType));
+	Q->front = 0;
+	Q->rear = 0;
+	return Q;
+}
+
+// 원형 큐가 비었는지 확인하는 함수
+int isEmpty(QueueType* Q) {
+	return (Q->front == Q->rear);
+}
+
+// 원형 큐가 꽉 찼는지 확인하는 함수
+int isFull(QueueType* Q) {
+	return ((Q->rear + 1) % Q_SIZE == Q->front);
+}
+
+// 원형 큐에 데이터를 삽입하는 함수
+void enQueue(QueueType* Q, element item) {
+	if (isFull(Q)) return;
+	else {
+		Q->rear = (Q->rear + 1) % Q_SIZE;  // rear 순환하도록 처리
+		Q->queue[Q->rear] = item;
+	}
+}
+
+// 원형 큐에서 데이터를 제거하는 함수
+element deQueue(QueueType* Q) {
+	if (isEmpty(Q)) return '\0';
+	else {
+		Q->front = (Q->front + 1) % Q_SIZE;  // front 순환하도록 처리
+		return Q->queue[Q->front];
+	}
+}
+
+// 원형 큐의 가장 앞에 있는 원소를 검색하는 연산
+element peek(QueueType* Q) {
+    if (isEmpty(Q)) {
+        printf("Queue is empty!\n");
+        return '\0';
+    } else {
+        return Q->queue[(Q->front + 1) % Q_SIZE];
+    }
+}
 ```
 
 ```c
+Circular Queue: [  A  B  C]
+Dequeued: A
+Circular Queue: [  B  C]
+Peek: B
 ```
 
 ## 3.3. 연결 큐
@@ -428,9 +533,78 @@ circular_queue_array.c
 queue_linked_list.c
 
 ```c
+typedef char element;
+
+typedef struct QNode {
+	element data;
+	struct QNode* link;
+} QNode;
+
+typedef struct {
+	QNode* front, *rear;
+} LQueueType;
+
+LQueueType* createLinkedQueue() {
+	LQueueType* LQ = (LQueueType*)malloc(sizeof(LQueueType));
+	LQ->front = NULL;
+	LQ->rear = NULL;
+	return LQ;
+}
+
+// 연결 큐가 비었는지 확인하는 함수
+int isEmpty(LQueueType* LQ) {
+	return (LQ->front == NULL);
+}
+
+// 연결 큐에 데이터 삽입하는 함수
+void enQueue(LQueueType* LQ, element item) {
+    QNode* newNode = (QNode*)malloc(sizeof(QNode));
+    newNode->data = item;
+    newNode->link = NULL;
+
+    if (isEmpty(LQ)) {
+        LQ->front = newNode;
+        LQ->rear = newNode;
+    }
+    else {
+        LQ->rear->link = newNode;
+        LQ->rear = newNode;
+    }
+}
+
+// 연결 큐에서 데이터 제거하는 함수
+element deQueue(LQueueType* LQ) {
+    if (isEmpty(LQ)) {
+        printf("Queue is empty!\n");
+        return '\0';
+    }
+
+    QNode* temp = LQ->front;
+    element item = temp->data;
+    LQ->front = LQ->front->link;
+
+    if (LQ->front == NULL) {
+        LQ->rear = NULL;  // 큐가 비어 있으면 rear도 NULL로 설정
+    }
+
+    free(temp);
+    return item;
+}
+
+// 연결 큐의 가장 앞에 있는 원소를 확인하는 함수
+element peek(LQueueType* LQ) {
+    if (isEmpty(LQ)) {
+        printf("Queue is empty!\n");
+        return '\0';
+    }
+    return LQ->front->data;
+}
 ```
 
 ```c
+Linked Queue elements: A B C D
+Dequeued: A
+Linked Queue elements: B C D
 ```
 
 # 4. 데크 (Deque)
