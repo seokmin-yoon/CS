@@ -358,6 +358,8 @@ n개의 정점으로 이루어진 무 방향 그래프 G에서 n개의 모든 �
 
 알고리즘
 
+kruskal_algorithm.c
+
 ```c
 void kruskal(graphType* g) {
     Edge edges[MAX_EDGES];
@@ -400,7 +402,11 @@ void kruskal(graphType* g) {
 }
 ```
 
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-11.png?raw=true)
+
 그래프 G10 실행 결과
+
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-12.png?raw=true)
 
 ```c
 그래프 G10의 Minimum Spanning Tree:
@@ -429,6 +435,8 @@ Total weight of MST: 31
 ```
 
 그래프 G10 실행 결과
+
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-13.png?raw=true)
 
 ```c
 ```
