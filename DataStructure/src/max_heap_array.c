@@ -84,7 +84,7 @@ void printHeap(heapType* h) {
 }
 
 int main() {
-	int i, n, item;
+	int n, item;
 	heapType* h = createHeap();
 	insertHeap(h, 20);
 	insertHeap(h, 15);
