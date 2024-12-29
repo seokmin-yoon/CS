@@ -359,11 +359,58 @@ n개의 정점으로 이루어진 무 방향 그래프 G에서 n개의 모든 �
 알고리즘
 
 ```c
+void kruskal(graphType* g) {
+    Edge edges[MAX_EDGES];
+    int edge_count = 0;
+
+    // 간선 리스트로 변환 (인접 행렬에서 간선 리스트로)
+    for (int i = 0; i < g->n; i++) {
+        for (int j = i + 1; j < g->n; j++) {
+            if (g->adjMatrix[i][j] != 0) { // 간선이 존재하면
+                edges[edge_count].u = i;
+                edges[edge_count].v = j;
+                edges[edge_count].weight = g->adjMatrix[i][j];
+                edge_count++;
+            }
+        }
+    }
+
+    // 간선을 가중치 순으로 정렬
+    qsort(edges, edge_count, sizeof(Edge), compare_edges);
+
+    // 각 정점에 대해 부모 노드를 자기 자신으로 설정
+    for (int i = 0; i < g->n; i++) {
+        parent[i] = i;
+    }
+
+    printf("Minimum Spanning Tree:\n");
+    int mst_weight = 0;
+    for (int i = 0; i < edge_count; i++) {
+        int u = edges[i].u;
+        int v = edges[i].v;
+
+        // 두 정점이 같은 집합에 속하지 않으면 간선 추가
+        if (find_set(u) != find_set(v)) {
+            printf("Edge (%d, %d) with weight %d\n", u, v, edges[i].weight);
+            mst_weight += edges[i].weight;
+            union_sets(u, v); // 집합을 합침
+        }
+    }
+    printf("Total weight of MST: %d\n", mst_weight);
+}
 ```
 
 그래프 G10 실행 결과
 
 ```c
+그래프 G10의 Minimum Spanning Tree:
+Edge (4, 6) with weight 2
+Edge (0, 1) with weight 3
+Edge (4, 5) with weight 4
+Edge (1, 3) with weight 5
+Edge (2, 5) with weight 8
+Edge (3, 4) with weight 9
+Total weight of MST: 31
 ```
 
 ### 프림 알고리즘 (Prim’s algorithm)
