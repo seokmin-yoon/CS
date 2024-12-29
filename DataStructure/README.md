@@ -261,6 +261,58 @@ DL = (월, 금)
 stack_array.c
 
 ```c
+typedef char element;
+
+element stack[STACK_SIZE];
+int top = -1;
+
+// 스택이 비었는지 확인하는 함수
+int isEmpty() {
+    return (top == -1);
+}
+
+// 스택이 꽉 찼는지 확인하는 함수
+int isFull() {
+    return (top == STACK_SIZE - 1);
+}
+
+// 스택에 데이터를 푸시하는 함수
+void push(element item) {
+    if (isFull()) {
+        printf("스택이 꽉 찼습니다!\n");
+        return;
+    }
+    stack[++top] = item;
+    printf("푸시된 데이터: %c\n", item);
+}
+
+// 스택에서 데이터를 팝하는 함수
+element pop() {
+    if (isEmpty()) {
+        printf("스택이 비어있습니다!\n");
+        return -1;  // 비어 있을 경우 잘못된 값을 반환
+    }
+    return stack[top--];
+}
+
+// 스택의 맨 위에 있는 데이터(peek)를 확인하는 함수
+element peek() {
+    if (isEmpty()) {
+        printf("스택이 비어있습니다!\n");
+        return -1;  // 비어 있을 경우 잘못된 값을 반환
+    }
+    return stack[top];
+}
+```
+
+```c
+푸시된 데이터: A
+푸시된 데이터: B
+푸시된 데이터: C
+스택 상태: A B C
+팝된 데이터: C
+스택 상태: A B
+스택의 맨 위 데이터: B
 ```
 
 ## 2.2. 연결 스택
@@ -271,6 +323,65 @@ stack_array.c
 stack_linked_list.c
 
 ```c
+typedef char element;
+
+// 연결 리스트의 노드 구조체 정의
+typedef struct Node {
+    element data;
+    struct Node* link;  // 다음 노드를 가리키는 포인터
+} Node;
+
+Node* top = NULL;  // 스택의 top을 나타내는 포인터
+
+// 스택이 비었는지 확인하는 함수
+int isEmpty() {
+    return (top == NULL);
+}
+
+// 스택에 데이터를 푸시하는 함수
+void push(element item) {
+    Node* newNode = (Node*)malloc(sizeof(Node));  // 새 노드를 동적 할당
+    if (newNode == NULL) {  // 메모리 할당 실패 시
+        printf("메모리 할당 실패!\n");
+        return;
+    }
+    newNode->data = item;  // 노드에 데이터 저장
+    newNode->link = top;    // 새 노드의 링크는 현재 top을 가리킴
+    top = newNode;          // top을 새 노드로 갱신
+    printf("푸시된 데이터: %c\n", item);
+}
+
+// 스택에서 데이터를 팝하는 함수
+element pop() {
+    if (isEmpty()) {
+        printf("스택이 비어있습니다!\n");
+        return -1;  // 비어 있을 경우 잘못된 값을 반환
+    }
+    Node* temp = top;         // 팝할 노드를 임시로 저장
+    element item = temp->data;  // 팝할 데이터를 저장
+    top = top->link;           // top을 다음 노드로 갱신
+    free(temp);                // 팝한 노드를 메모리에서 해제
+    return item;
+}
+
+// 스택의 맨 위에 있는 데이터(peek)를 확인하는 함수
+element peek() {
+    if (isEmpty()) {
+        printf("스택이 비어있습니다!\n");
+        return -1;  // 비어 있을 경우 잘못된 값을 반환
+    }
+    return top->data;
+}
+```
+
+```c
+푸시된 데이터: A
+푸시된 데이터: B
+푸시된 데이터: C
+스택 상태: C B A
+팝된 데이터: C
+스택 상태: B A
+스택의 맨 위 데이터: B
 ```
 
 # 3. 큐 (Queue)
@@ -292,6 +403,9 @@ queue_array.c
 ```c
 ```
 
+```c
+```
+
 ## 3.2. 원형 큐
 1차원 배열에서 처음과 끝을 논리적으로 연결한 큐
 - 순차 큐의 잘못된 포화 상태 문제를 해결함
@@ -303,12 +417,18 @@ circular_queue_array.c
 ```c
 ```
 
+```c
+```
+
 ## 3.3. 연결 큐
 노드의 양쪽에 포인터를 연결하여 구성된 큐
 
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/3-4.png?raw=true)
 
 queue_linked_list.c
+
+```c
+```
 
 ```c
 ```
@@ -327,12 +447,18 @@ deque_circular_queue.c
 ```c
 ```
 
+```c
+```
+
 ## 4.2. 연결 데크
 이중 연결 리스트를 사용한 데크
 
 ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/4-2.png?raw=true)
 
 deque_douply_linked_list.c
+
+```c
+```
 
 ```c
 ```
