@@ -1,84 +1,84 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_SIZE 100 // ÀÌÁø Æ®¸®ÀÇ ÃÖ´ë Å©±â
+#define MAX_SIZE 100 // ì´ì§„ íŠ¸ë¦¬ì˜ ìµœëŒ€ í¬ê¸°
 
 typedef char element;
 
-// ÀÌÁø Æ®¸®¸¦ ³ªÅ¸³»´Â ±¸Á¶Ã¼
+// ì´ì§„ íŠ¸ë¦¬ë¥¼ ë‚˜íƒ€ë‚´ëŠ” êµ¬ì¡°ì²´
 typedef struct {
-    element data[MAX_SIZE];  // Æ®¸® µ¥ÀÌÅÍ¸¦ ÀúÀåÇÒ ¹è¿­
-    int size;            // Æ®¸®ÀÇ ÇöÀç Å©±â
+    element data[MAX_SIZE];  // íŠ¸ë¦¬ ë°ì´í„°ë¥¼ ì €ì¥í•  ë°°ì—´
+    int size;            // íŠ¸ë¦¬ì˜ í˜„ì¬ í¬ê¸°
 } BinaryTree;
 
-// Æ®¸® ÃÊ±âÈ­
+// íŠ¸ë¦¬ ì´ˆê¸°í™”
 void initTree(BinaryTree* tree) {
     tree->size = 0;
 }
 
-// Æ®¸®¿¡ ³ëµå »ğÀÔ
+// íŠ¸ë¦¬ì— ë…¸ë“œ ì‚½ì…
 void insertNode(BinaryTree* tree, element value) {
     if (tree->size >= MAX_SIZE) {
-        printf("Æ®¸®°¡ °¡µæ Ã¡½À´Ï´Ù.\n");
+        printf("íŠ¸ë¦¬ê°€ ê°€ë“ ì°¼ìŠµë‹ˆë‹¤.\n");
         return;
     }
     tree->data[tree->size] = value;
     tree->size++;
 }
 
-// Æ®¸® Ãâ·Â (´Ü¼øÈ÷ ¹è¿­À» Ãâ·Â)
+// íŠ¸ë¦¬ ì¶œë ¥ (ë‹¨ìˆœíˆ ë°°ì—´ì„ ì¶œë ¥)
 void printTree(BinaryTree* tree) {
-    printf("ÀÌÁø Æ®¸®: ");
+    printf("ì´ì§„ íŠ¸ë¦¬: ");
     for (int i = 0; i < tree->size; i++) {
         printf("%c ", tree->data[i]);
     }
     printf("\n");
 }
 
-// Æ®¸® ±×·¡ÇÁ ÇüÅÂ·Î Ãâ·Â (°èÃşÀû ±¸Á¶)
+// ì™¼ìª½ ìì‹ì˜ ì¸ë±ìŠ¤ ë°˜í™˜
+int leftChild(int index) {
+    return 2 * index + 1;
+}
+
+// ì˜¤ë¥¸ìª½ ìì‹ì˜ ì¸ë±ìŠ¤ ë°˜í™˜
+int rightChild(int index) {
+    return 2 * index + 2;
+}
+
+// ë¶€ëª¨ì˜ ì¸ë±ìŠ¤ ë°˜í™˜
+int parent(int index) {
+    if (index == 0) return -1;  // ë£¨íŠ¸ ë…¸ë“œëŠ” ë¶€ëª¨ê°€ ì—†ë‹¤
+    return (index - 1) / 2;
+}
+
+// íŠ¸ë¦¬ ê·¸ë˜í”„ í˜•íƒœë¡œ ì¶œë ¥ (ê³„ì¸µì  êµ¬ì¡°)
 void printTreeGraph(BinaryTree* tree, int index, int level) {
     if (index >= tree->size) return;
 
-    // ¿À¸¥ÂÊ ÀÚ½Ä ³ëµå ¸ÕÀú Ãâ·Â (¿À¸¥ÂÊºÎÅÍ ¿ŞÂÊÀ¸·Î Ãâ·Â)
+    // ì˜¤ë¥¸ìª½ ìì‹ ë…¸ë“œ ë¨¼ì € ì¶œë ¥ (ì˜¤ë¥¸ìª½ë¶€í„° ì™¼ìª½ìœ¼ë¡œ ì¶œë ¥)
     int rightIndex = rightChild(index);
     if (rightIndex < tree->size) {
         printTreeGraph(tree, rightIndex, level + 1);
     }
 
-    // ÇöÀç ³ëµå Ãâ·Â (Áß¾Ó¿¡ ¹èÄ¡)
+    // í˜„ì¬ ë…¸ë“œ ì¶œë ¥ (ì¤‘ì•™ì— ë°°ì¹˜)
     for (int i = 0; i < level; i++) {
-        printf("    ");  // °ø¹éÀ» ³Ö¾î¼­ µé¿©¾²±â
+        printf("    ");  // ê³µë°±ì„ ë„£ì–´ì„œ ë“¤ì—¬ì“°ê¸°
     }
     printf("%c[%d]\n", tree->data[index], index);
 
-    // ¿ŞÂÊ ÀÚ½Ä ³ëµå Ãâ·Â
+    // ì™¼ìª½ ìì‹ ë…¸ë“œ ì¶œë ¥
     int leftIndex = leftChild(index);
     if (leftIndex < tree->size) {
         printTreeGraph(tree, leftIndex, level + 1);
     }
 }
 
-// ¿ŞÂÊ ÀÚ½ÄÀÇ ÀÎµ¦½º ¹İÈ¯
-int leftChild(int index) {
-    return 2 * index + 1;
-}
-
-// ¿À¸¥ÂÊ ÀÚ½ÄÀÇ ÀÎµ¦½º ¹İÈ¯
-int rightChild(int index) {
-    return 2 * index + 2;
-}
-
-// ºÎ¸ğÀÇ ÀÎµ¦½º ¹İÈ¯
-int parent(int index) {
-    if (index == 0) return -1;  // ·çÆ® ³ëµå´Â ºÎ¸ğ°¡ ¾ø´Ù
-    return (index - 1) / 2;
-}
-
 int main() {
     BinaryTree tree;
     initTree(&tree);
 
-    // Æ®¸®¿¡ °ª »ğÀÔ
+    // íŠ¸ë¦¬ì— ê°’ ì‚½ì…
     insertNode(&tree, 'A');
     insertNode(&tree, 'B');
     insertNode(&tree, 'C');
@@ -87,7 +87,7 @@ int main() {
     insertNode(&tree, 'F');
     insertNode(&tree, 'G');
 
-    // Æ®¸® Ãâ·Â
+    // íŠ¸ë¦¬ ì¶œë ¥
     printTreeGraph(&tree, 0, 0);
 
     return 0;
