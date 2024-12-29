@@ -82,28 +82,36 @@
 - **서브 트리 (forest)**: 부모 노드와 연결된 간선을 끊었을 때 생성되는 트리
 - **차수 (degree)**: 노드에 연결된 자식 노드의 수
 - **높이**: 노드의 레벨
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-1.png?raw=true)
 
 ## 5.1. 이진 트리
 트리의 모든 노드의 차수가 2 이하를 가져 왼쪽과 오른쪽 자식만 가지는 노드로 구성된 트리
 - 노드가 n개 일 때, 간선은 n-1개
 - 높이가 h일 때, 가질 수 있는 노드 개수는 최소 h+1, 최대 2^(h+1)-1
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-2.png?raw=true)
 
 - **포화 이진 트리 (Full Binary Tree)**: 모든 레벨에 가능한 최대 개수의 노드로 차 있는 이진 트리
     - 각 레벨 k에서 노드는 2^k개
-    
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-3.png?raw=true)
+
 - **완전 이진 트리 (Complete Binary Tree)**: 모든 레벨이 가득 차 있으며, 마지막 레벨만 노드가 왼쪽부터 차례대로 채워진 이진 트리
-    
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-4.png?raw=true)
+
 - **편향 이진 트리 (Skewed Binary Tree)**: 모든 노드가 한쪽 방향(왼쪽 또는 오른쪽)으로만 서브 트리를 가지고 있는 이진 트리
     - 높이가 h일 때, 노드는 h+1개
-    
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-5.png?raw=true)
+
 ### 배열 기반 구현
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-6.png?raw=true)
+
 ### 연결 리스트 기반 구현
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-7.png?raw=true)
 
 ## 5.2. 이진 트리 순회
 - **D**: 현재 (루트) 노드
 - **L**: 현재 노드의 왼쪽  노드로 이동
 - **R**: 현재 노드의 오른쪽 노드로 이동
-
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-8.png?raw=true)
 - **전위 순회(preorder)**: D → L → R
     - 위 트리에서 전위 순회 경로: A-B-D-H-E-I-J-C-F-G-K
 - **중위 순회(inorder)**: L → D → R
@@ -117,20 +125,25 @@
 - 왼쪽 서브 트리에 있는 원소들의 키는 그 루트의 키보다 작음
 - 오른쪽 서브 트리에 있는 원소들의 키는 그 루트의 키보다 큼
 - 양쪽 서브 트리는 모두 이진 트리임
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-9.png?raw=true)
+
 1. 이진 탐색 트리의 탐색 과정
-
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-10.png?raw=true)
 2. 이진 탐색 트리의 삽입 과정
-
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-11.png?raw=true)
 3. 이진 탐색 트리의 삭제 과정
-   
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-12.png?raw=true)
+
 ## 5.4. AVL 트리 (Adelson-Velskii, Landis Tree)
 균형 잡힌 이진 탐색 트리로, 각 노드에서 왼쪽 서브 트리 높이와 오른쪽 서브 트리 높이의 차이가 1 이하인 트리
 - **균형 이진 탐색 트리 또는 균형 트리**: 이진 탐색 트리의 왼쪽과 오른쪽 서브 트리의 높이에 대한 균형 조건을 추가한 트리
 - **균형 인수 (BF: Balance Factor)**: 각 노드에서 왼쪽 서브 트리의 높이 hL (height of Left subtree)과 오른쪽 서브 트리 높이 hR (height of Right subtree)의 차이
     - BF = hL - hR
 - AVL 트리의 각 노드는 균형 인수로 {-1, 0, +1} 값만 가질 수 있음
-- 위 그림은 모든 노드가 균형 인수로 {-1, 0, 1} 값을 가지므로 AVL 트리임
-- 위 그림은 균형 인수로 {-1, 0, 1} 외의 값을 가져 균형이 깨지므로 비 AVL 트리임
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-13.png?raw=true)
+위 그림은 모든 노드가 균형 인수로 {-1, 0, 1} 값을 가지므로 AVL 트리임
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-14.png?raw=true)
+위 그림은 균형 인수로 {-1, 0, 1} 외의 값을 가져 균형이 깨지므로 비 AVL 트리임
 
 ## 5.5. 힙 (Heap)
 완전 이진 트리 형태에서, 노드 중 키 값이 가장 큰 노드나 키 값이 가장 작은 노드를 찾기 위해서 만든 자료 구조
@@ -138,7 +151,10 @@
     - 부모 노드의 키가 자식 노드보다 큼
 - **최소 힙 (min heap)** : 키 값이 가장 작은 노드를  찾기 위한 완전 이진  트리
     - 부모 노드의 키가 자식 노드보다 작음
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-15.png?raw=true)
+
 ### 배열 기반으로 최대 힙 구현
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/5-16.png?raw=true)
 
 # 6. 그래프
 연결되어 있는 원소 사이의 다대다 관계를 표현하는 자료구조
