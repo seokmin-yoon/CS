@@ -43,17 +43,21 @@
 - FIFO (First-In, First-Out)
 - 삽입:  enqueue, 위치: rear
 - 삭제: dequeue, 위치: front
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/3-1.png?raw=true)
 
 ## 3.1. 순차 큐
 1차원 배열을 이용하여 순차적으로 연결된 큐
 - rear가 배열의 마지막 인덱스에 도달하면, 배열에 빈자리가 있어도 포화 상태가 될 수 있음
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/3-2.png?raw=true)
 
 ## 3.2. 원형 큐
 1차원 배열에서 처음과 끝을 논리적으로 연결한 큐
 - 순차 큐의 잘못된 포화 상태 문제를 해결함
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/3-3.png?raw=true)
 
 ## 3.3. 연결 큐
 노드의 양쪽에 포인터를 연결하여 구성된 큐
+![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/3-4.png?raw=true)
 
 # 4. 데크 (Deque)
 큐 두 개 중 하나를 좌우로 뒤집어서 붙인 구조로, 큐의 양쪽 끝에서 삽입과 삭제 연산을 수행
