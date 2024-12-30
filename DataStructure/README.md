@@ -1655,7 +1655,6 @@ n개의 정점으로 이루어진 무 방향 그래프 G에서 n개의 모든 �
 
 ### 크루스칼 알고리즘 (Kruskal Algorithm)
 가중치가 높은 간선을 제거하면서 최소 비용 신장 트리를 만드는 방법
-- Greedy Algorithm
 
 - **MST 구하는 과정**
     1. 먼저 그래프 G의 모든 간선을 가중치에 따라 오름차순으로 정렬
@@ -1727,7 +1726,6 @@ Total weight of MST: 31
 
 ### 프림 알고리즘 (Prim Algorithm)
 간선을 정렬하지 않고 하나의 정점에서 시작하여 트리를 확장해 나가는 방법
-- Greedy Algorithm
 
 - **MST 구하는 과정**
     1. 그래프 G에서 시작 정점을 선택
@@ -1805,7 +1803,6 @@ Total weight of Minimum Spanning Tree: 31
 - 하나의 시작 정점에서 다른 정점까지의 최단 경로를 구함
 - 무방향 그래프나 방향 그래프에 모두 적용 가능
 - 단일점에서의 최단 경로 알고리즘 중 가장 많이 사용됨
-- Dynamic Programming Algorithm
 
 - **최단 경로 구하는 과정**
     1. **경로 길이를 저장할 배열 distance 준비**:
@@ -1842,7 +1839,6 @@ Total weight of Minimum Spanning Tree: 31
 
 ### 플로이드-워셜 알고리즘 (Floyd-Warshall Algorithm)
 - 모든 정점 사이의 최단 경로를 구함
-- Dynamic Programming Algorithm
 
 - **최단 경로 구는 과정**
 
@@ -1857,7 +1853,6 @@ Total weight of Minimum Spanning Tree: 31
 ```
 
 ### 벨만-포드 알고리즘 (Bellman-Ford Algorithm)
-- Dynamic Programming Algorithm
 
 - **최단 경로 구는 과정**
 
