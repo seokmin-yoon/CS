@@ -28,3 +28,5 @@
 ## 7.1. 성능 측정 지표
 ## 7.2. 암달의 법칙
 ## 7.3. 시스템 성능 최적화
+# Reference
+Computer Organization and Design, D. Patterson & J. Hennessy, Elsevier
