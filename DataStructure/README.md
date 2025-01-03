@@ -1654,7 +1654,7 @@ n개의 정점으로 이루어진 무 방향 그래프 G에서 n개의 모든 �
 무 방향 가중치 그래프에서 신장 트리를 구성하는 간선들의 가중치 합이 최소인 신장 트리
 
 ### 크루스칼 알고리즘 (Kruskal Algorithm)
-가중치가 높은 간선을 제거하면서 최소 비용 신장 트리를 만드는 방법
+간선을 중심으로(정렬) 최소 신장 트리를 구성하는 방법
 
 - **작동 과정**
     1. 먼저 그래프 G의 모든 간선을 가중치에 따라 오름차순으로 정렬
@@ -1663,69 +1663,66 @@ n개의 정점으로 이루어진 무 방향 그래프 G에서 n개의 모든 �
     3. 그래프 G에 간선이 n-1개가 아니라면 2를 반복
     4. 그래프 G의 간선이 n-1개 라면 알고리즘 종료
 
-- 구현
+- 예) 그래프 G10 적용
+  ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-11.png?raw=true)
+    - 구현
+        kruskal_algorithm.c
+	```c
+	void kruskal(graphType* g) {
+	    Edge edges[MAX_EDGES];
+	    int edge_count = 0;
+	
+	    // 간선 리스트로 변환 (인접 행렬에서 간선 리스트로)
+	    for (int i = 0; i < g->n; i++) {
+	        for (int j = i + 1; j < g->n; j++) {
+	            if (g->adjMatrix[i][j] != 0) { // 간선이 존재하면
+	                edges[edge_count].u = i;
+	                edges[edge_count].v = j;
+	                edges[edge_count].weight = g->adjMatrix[i][j];
+	                edge_count++;
+	            }
+	        }
+	    }
+	
+	    // 간선을 가중치 순으로 정렬
+	    qsort(edges, edge_count, sizeof(Edge), compare_edges);
+	
+	    // 각 정점에 대해 부모 노드를 자기 자신으로 설정
+	    for (int i = 0; i < g->n; i++) {
+	        parent[i] = i;
+	    }
+	
+	    printf("Minimum Spanning Tree:\n");
+	    int mst_weight = 0;
+	    for (int i = 0; i < edge_count; i++) {
+	        int u = edges[i].u;
+	        int v = edges[i].v;
+	
+	        // 두 정점이 같은 집합에 속하지 않으면 간선 추가
+	        if (find_set(u) != find_set(v)) {
+	            printf("Edge (%d, %d) with weight %d\n", u, v, edges[i].weight);
+	            mst_weight += edges[i].weight;
+	            union_sets(u, v); // 집합을 합침
+	        }
+	    }
+	    printf("Total weight of MST: %d\n", mst_weight);
+	}
+	```
 
-kruskal_algorithm.c
-
-```c
-void kruskal(graphType* g) {
-    Edge edges[MAX_EDGES];
-    int edge_count = 0;
-
-    // 간선 리스트로 변환 (인접 행렬에서 간선 리스트로)
-    for (int i = 0; i < g->n; i++) {
-        for (int j = i + 1; j < g->n; j++) {
-            if (g->adjMatrix[i][j] != 0) { // 간선이 존재하면
-                edges[edge_count].u = i;
-                edges[edge_count].v = j;
-                edges[edge_count].weight = g->adjMatrix[i][j];
-                edge_count++;
-            }
-        }
-    }
-
-    // 간선을 가중치 순으로 정렬
-    qsort(edges, edge_count, sizeof(Edge), compare_edges);
-
-    // 각 정점에 대해 부모 노드를 자기 자신으로 설정
-    for (int i = 0; i < g->n; i++) {
-        parent[i] = i;
-    }
-
-    printf("Minimum Spanning Tree:\n");
-    int mst_weight = 0;
-    for (int i = 0; i < edge_count; i++) {
-        int u = edges[i].u;
-        int v = edges[i].v;
-
-        // 두 정점이 같은 집합에 속하지 않으면 간선 추가
-        if (find_set(u) != find_set(v)) {
-            printf("Edge (%d, %d) with weight %d\n", u, v, edges[i].weight);
-            mst_weight += edges[i].weight;
-            union_sets(u, v); // 집합을 합침
-        }
-    }
-    printf("Total weight of MST: %d\n", mst_weight);
-}
-```
-
-- 그래프 G10 실행 결과
-
-![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-11.png?raw=true)
-
-```c
-그래프 G10의 Minimum Spanning Tree:
-Edge (4, 6) with weight 2
-Edge (0, 1) with weight 3
-Edge (4, 5) with weight 4
-Edge (1, 3) with weight 5
-Edge (2, 5) with weight 8
-Edge (3, 4) with weight 9
-Total weight of MST: 31
-```
+    - 실행 결과
+	```c
+	그래프 G10의 Minimum Spanning Tree:
+	Edge (4, 6) with weight 2
+	Edge (0, 1) with weight 3
+	Edge (4, 5) with weight 4
+	Edge (1, 3) with weight 5
+	Edge (2, 5) with weight 8
+	Edge (3, 4) with weight 9
+	Total weight of MST: 31
+	```
 
 ### 프림 알고리즘 (Prim Algorithm)
-간선을 정렬하지 않고 하나의 정점에서 시작하여 트리를 확장해 나가는 방법
+정점 중심으로 하나의 정점에서 시작하여 최소 신장 트리를 확장해 나가는 방법
 
 - **작동 과정**
     1. 그래프 G에서 시작 정점을 선택
@@ -1733,68 +1730,65 @@ Total weight of MST: 31
     3. 그래프 G에 간선이 n-1개가 아니라면 2를 반복 수행
     4. 그래프 G의 간선이 n-1개 라면 알고리즘 종료
 
-- 구현
+- 예) 그래프 G10 적용
+  ![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-12.png?raw=true)
+    - 구현
+        prim_algorithm.c
+	```c
+	void prim(graphType* g) {
+	    int selected[MAX_VERTEX] = { 0 };
+	    int totalWeight = 0;
+	    int edgesInTree = 0;
+	
+	    // B ← {0}
+	    // 첫 번째 정점 선택
+	    selected[0] = 1; 
+	
+	    printf("Minimum Spanning Tree Edges:\n");
+	
+	    while (edgesInTree < g->n - 1) { // T의 간선 개수가 N-1이 될 때까지 반복
+	        int minWeight = INT_MAX;
+	        int u = -1, v = -1;
+	
+	        // Find (u, v) with minimum weight where u ∈ B and v ∈ N-B
+	        // 선택된 정점에서 선택되지 않은 정점으로 가는 최소 가중치 간선 찾기
+	        for (int i = 0; i < g->n; i++) {
+	            if (selected[i]) {
+	                for (int j = 0; j < g->n; j++) {
+	                    if (!selected[j] && g->adjMatrix[i][j] > 0 && g->adjMatrix[i][j] < minWeight) {
+	                        minWeight = g->adjMatrix[i][j];
+	                        u = i;
+	                        v = j;
+	                    }
+	                }
+	            }
+	        }
+	
+	        // Add (u, v) to T and v to B
+	        // 최소 가중치 간선 (u, v) 추가
+	        if (u != -1 && v != -1) {
+	            printf("Edge (%d, %d) with weight %d\n", u, v, minWeight);
+	            totalWeight += minWeight;
+	            selected[v] = 1; // 정점 v 선택
+	            edgesInTree++;
+	        }
+	    }
+	
+	    printf("Total weight of Minimum Spanning Tree: %d\n", totalWeight);
+	}
+	```
 
-prim_algorithm.c
-
-```c
-void prim(graphType* g) {
-    int selected[MAX_VERTEX] = { 0 };
-    int totalWeight = 0;
-    int edgesInTree = 0;
-
-    // B ← {0}
-    // 첫 번째 정점 선택
-    selected[0] = 1; 
-
-    printf("Minimum Spanning Tree Edges:\n");
-
-    while (edgesInTree < g->n - 1) { // T의 간선 개수가 N-1이 될 때까지 반복
-        int minWeight = INT_MAX;
-        int u = -1, v = -1;
-
-        // Find (u, v) with minimum weight where u ∈ B and v ∈ N-B
-        // 선택된 정점에서 선택되지 않은 정점으로 가는 최소 가중치 간선 찾기
-        for (int i = 0; i < g->n; i++) {
-            if (selected[i]) {
-                for (int j = 0; j < g->n; j++) {
-                    if (!selected[j] && g->adjMatrix[i][j] > 0 && g->adjMatrix[i][j] < minWeight) {
-                        minWeight = g->adjMatrix[i][j];
-                        u = i;
-                        v = j;
-                    }
-                }
-            }
-        }
-
-        // Add (u, v) to T and v to B
-        // 최소 가중치 간선 (u, v) 추가
-        if (u != -1 && v != -1) {
-            printf("Edge (%d, %d) with weight %d\n", u, v, minWeight);
-            totalWeight += minWeight;
-            selected[v] = 1; // 정점 v 선택
-            edgesInTree++;
-        }
-    }
-
-    printf("Total weight of Minimum Spanning Tree: %d\n", totalWeight);
-}
-```
-
-- 그래프 G10 실행 결과
-
-![](https://github.com/seokmin-yoon/CS/blob/main/DataStructure/images/6-12.png?raw=true)
-
-```c
-그래프 G10의 Minimum Spanning Tree Edges:
-Edge (0, 1) with weight 3
-Edge (1, 3) with weight 5
-Edge (3, 4) with weight 9
-Edge (4, 6) with weight 2
-Edge (4, 5) with weight 4
-Edge (5, 2) with weight 8
-Total weight of Minimum Spanning Tree: 31
-```
+    - 실행 결과
+	```c
+	그래프 G10의 Minimum Spanning Tree Edges:
+	Edge (0, 1) with weight 3
+	Edge (1, 3) with weight 5
+	Edge (3, 4) with weight 9
+	Edge (4, 6) with weight 2
+	Edge (4, 5) with weight 4
+	Edge (5, 2) with weight 8
+	Total weight of Minimum Spanning Tree: 31
+	```
 
 ## 6.5. 최단 경로
 신장 트리가 아닌 가중치 그래프 (네트워크)에서 정점 u와 v를 연결하는 경로 중 가중치의 합이 최소인 경로
@@ -1802,42 +1796,40 @@ Total weight of Minimum Spanning Tree: 31
     - 간선이 없으면 ∞(무한대) 값을 저장
 
 ### 다익스트라 알고리즘 (Dijkstra Algorithm)
-- 하나의 시작 정점에서 다른 정점까지의 최단 경로를 구함
-    - 무방향 그래프나 방향 그래프에 모두 적용 가능
-    - 단일점에서의 최단 경로 알고리즘 중 가장 많이 사용됨
-
+- **특징**
+    - 하나의 시작 정점에서 다른 정점까지의 최단 경로를 구함
+    - Greedy Algorithm
+    - 음수 가중치 처리 불가
+    - 방향 및 무방향 그래프 모두에 적용 가능
+    - 정점 수에 비례한 시간 복잡도
 - **작동 과정**
-    1. **경로 길이를 저장할 배열 distance 준비**:
-        - 시작 정점으로부터 각 정점에 이르는 경로의 길이를 저장하기 위한 배열 distance를 무한대로 초기화
-    2. **시작 정점 초기화**:
-        - 시작 정점의 distance를 0으로 초기화
-        - 최단 경로 정점 집합 S에 해당 정점을 추가
-    3. **최단 거리 수정**:
-        - 집합 S에 속하지 않은 정점 중에서 distance가 최소인 정점 u를 찾음
-        - 정점 u를 집합 S에 추가하고, 집합 S에 포함되지 않은 정점 w의 distance 값을 다음 식에 따라 업데이트
-           - weight: 가중치 인접 행렬
+    1. **초기화**
+        1. 시작 정점 s 선택
+        2. 각 정점 v에 대한 최단 경로를 나타내는 배열 distance 준비
+    2. **최단 거리 정점 선택**
+        1. 그래프의 정점 집합 N에서 최단 거리를 가지는 정점 u를 찾아서 선택
+    3. **인접 정점에 대한 거리 갱신**
+        1. 현재 정점 v의 최단 경로 d[v]가 
+            
+            u를 거쳐서 v에 도달하는 경로 보다 크다면, 최단 경로 값을 갱신
             
             $$
-            distance[w]=min(distance[w], distance[u]+weight[u][w])
+            distance[v]=min(distance[v], distance[u]+weight[u][v])
             $$
- 
-            이 공식은 현재 경로 보다 정점 u를 거쳐서 w으로 가는 경로가 더 짧다면, w의 distance 값을 갱신하는 방식임
-          
-        4. 집합 S에 모든 정점이 추가될 때까지 3번 과정을 반복
-
-- 구현
-
-```c
-//1. distance 배열을 무한대로 초기화.
-//2. 시작 정점의 distance 값을 0으로 설정하고 집합 S에 추가.
-//3. 최단 경로를 갱신하며 집합 S에 정점을 추가.
-//4. 모든 정점이 집합 S에 포함될 때까지 이 과정을 반복.
-```
-
-- 그래프 G11 실행 결과
-
-```c
-```
+            
+    4. **그래프의 모든 정점을 처리할 때까지** 위의 2, 3번 과정을 **반복**
+- 예) 그래프 G11 적용
+    - 구현
+        
+        ```c
+        
+        ```
+        
+    - 실행 결과
+        
+        ```c
+        
+        ```
 
 ### 플로이드-워셜 알고리즘 (Floyd-Warshall Algorithm)
 - 모든 정점 사이의 최단 경로를 구함
